@@ -43,9 +43,10 @@ ROBOTSTXT_OBEY = False
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    "Drogasil.middlewares.DrogasilDownloaderMiddleware": 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    #"Drogasil.middlewares.DrogasilDownloaderMiddleware": 543,
+    "Drogasil.middlewares.FakeHeadersMiddleware": 400,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -86,13 +87,8 @@ FEED_EXPORT_ENCODING = "utf-8"
 
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 
-DOWNLOAD_HANDLERS = {
-    "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-    "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-}
-
-PLAYWRIGHT_LAUNCH_OPTIONS = {
-     "headless": True,
- }
-
-PLAYWRIGHT_BROWSER_TYPE = "chromium"
+# Fake Header generator settings
+HEADER_GEN_API_KEY = '8e885e75-1f82-46fe-986c-670a28e104f9'
+HEADER_GEN_ENDPOINT = 'https://headers.scrapeops.io/v1/browser-headers'
+HEADER_GEN_IS_ACTIVE = True
+HEADER_GEN_NUM_RESULTS = 15

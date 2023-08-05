@@ -1,8 +1,3 @@
-# Define here the models for your spider middleware
-#
-# See documentation in:
-# https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-
 from scrapy import signals
 
 # useful for handling different item types with a single interface
@@ -101,3 +96,66 @@ class DrogasilDownloaderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info("Spider opened: %s" % spider.name)
+
+
+# defining a middleware to call the fake headers API and generate fake headers for our requests
+from urllib.parse import urlencode
+from random import randint
+import requests
+
+class FakeHeadersMiddleware:
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(crawler.settings)
+
+    def __init__(self, settings):
+
+        self.api_key = settings.get('HEADER_GEN_API_KEY')
+        self.endpoint = settings.get('HEADER_GEN_ENDPOINT',
+                                               'https://headers.scrapeops.io/v1/browser-headers')
+        self.is_active = settings.get('HEADER_GEN_IS_ACTIVE', False)
+        self.num_results = settings.get('HEADER_GEN_NUM_RESULTS')
+        self.headers = []
+        self._get_user_agents_list()
+        self._fake_headers_enabled()
+
+    def _get_user_agents_list(self):
+
+        payload = {
+            'api_key': self.api_key
+        }
+
+        if self.num_results is not None:
+            payload['num_headers'] = self.num_results
+
+        response = requests.get(self.endpoint, params = urlencode(payload))
+        json_data = response.json()
+        self.headers = json_data.get('result', [])
+
+    def _get_random_header(self):
+
+        rand_index = randint(0, len(self.headers) - 1)
+        return self.headers[rand_index]
+
+    def _fake_headers_enabled(self):
+
+        if self.api_key is None or self.api_key == "":
+            self.is_active = False
+        else:
+            self.is_active = True
+
+    def process_request(self, request, spider):
+
+        rand_header = self._get_random_header()
+
+        request.headers['user-agent'] = rand_header['user-agent']
+        request.headers['accept-language'] = rand_header['accept-language']
+        request.headers['accept-encoding'] = rand_header['accept-encoding']
+        request.headers['sec-fetch-user'] = rand_header['sec-fetch-user']
+        request.headers['sec-fetch-mod'] = rand_header['sec-fetch-mod']
+        request.headers['sec-fetch-site'] = rand_header['sec-fetch-site']
+        request.headers['sec-ch-ua-platform'] = rand_header['sec-ch-ua-platform']
+        request.headers['sec-ch-ua-mobile'] = rand_header['sec-ch-ua-mobile']
+        request.headers['sec-ch-ua'] = rand_header['sec-ch-ua']
+        request.headers['accept'] = rand_header['accept']
