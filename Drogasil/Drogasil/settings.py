@@ -59,7 +59,7 @@ ITEM_PIPELINES = {
     "Drogasil.pipelines.DrogasilCleaning": 300,
 }
 
-# Enable and configure the AutoThrottle extension (disabled by default)
+# Enable andconfigure the AutoThrottle extension (disabled by default)
 #AUTOTHROTTLE_ENABLED = True
 # The initial download delay
 #AUTOTHROTTLE_START_DELAY = 5
@@ -83,12 +83,17 @@ ITEM_PIPELINES = {
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 FEED_EXPORT_ENCODING = "utf-8"
 
-# Playwright settings
-
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 
 # Fake Header generator settings
 HEADER_GEN_API_KEY = '8e885e75-1f82-46fe-986c-670a28e104f9'
 HEADER_GEN_ENDPOINT = 'https://headers.scrapeops.io/v1/browser-headers'
 HEADER_GEN_IS_ACTIVE = True
-HEADER_GEN_NUM_RESULTS = 15
+HEADER_GEN_NUM_RESULTS = 10
+
+# MySQL settings
+MYSQL_HOST = 'localhost'
+MYSQL_USER = 'crawler_user'
+MYSQL_PASSWORD = 'daniella'
+MYSQL_PORT = '3306'
+MYSQL_DATABASE = 'drogasil'
