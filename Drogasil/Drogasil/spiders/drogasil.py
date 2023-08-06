@@ -1,12 +1,26 @@
+from urllib.parse import urljoin, urlencode
 from Drogasil.config.tools import get_config
 from Drogasil.items import DrogasilItem
-from urllib.parse import urljoin
 from math import ceil
 import scrapy
 
 env = get_config()
 item_selectors = env.get('selectors').get('items')
 attr_selectors = env.get('selectors').get('attributes')
+
+def get_proxy_url(url: str,
+                  config: dict = env) -> str:
+
+    endpoint = config.get('proxy').get('endpoint')
+    params = {"url": url,
+              "api_key": config.get('proxy').get('api_key'),
+              "residential": config.get('proxy').get('residential'),
+              "proxy_country": config.get('proxy').get('country')}
+
+    proxy_url = f"{endpoint}?{urlencode(params)}"
+
+    return proxy_url
+
 class DrogasilSpider(scrapy.Spider):
     name = env.get('meta').get('crawler')
     allowed_domains = [
@@ -19,7 +33,7 @@ class DrogasilSpider(scrapy.Spider):
 
         for route in initial_routes:
             relative_url = urljoin(domain, route)
-            yield scrapy.Request( url = relative_url,
+            yield scrapy.Request( url = get_proxy_url(relative_url),
                                   callback = self.parse_category_urls,
                                   meta = {'route': route,
                                           'domain': domain})
@@ -34,7 +48,7 @@ class DrogasilSpider(scrapy.Spider):
 
             category_url = urljoin(domain, category)
 
-            yield scrapy.Request(url = category_url,
+            yield scrapy.Request(url = get_proxy_url(category_url),
                                  callback = self.parse_relative_page,
                                  meta = {'domain': domain,
                                          'route': route})
@@ -47,7 +61,7 @@ class DrogasilSpider(scrapy.Spider):
         for sub_category in sub_categories:
 
             sub_category_url = urljoin(domain, sub_category)
-            yield scrapy.Request(url = sub_category_url,
+            yield scrapy.Request(url = get_proxy_url(sub_category_url),
                                  callback = self.parse_page,
                                  meta = {'current_page': sub_category_url,
                                          'page_num': 1})
@@ -62,7 +76,7 @@ class DrogasilSpider(scrapy.Spider):
         ).getall()
 
         for product_page in product_pages:
-            yield scrapy.Request(url = product_page,
+            yield scrapy.Request(url = get_proxy_url(product_page),
                                  callback = self.parse_product,
                                  meta = {'current_page': current_page
                                          })
@@ -76,7 +90,7 @@ class DrogasilSpider(scrapy.Spider):
 
             for page_num in range(2, number_pages):
                 next_page = f"{current_page}?p={page_num}"
-                yield scrapy.Request(url = next_page,
+                yield scrapy.Request(url = get_proxy_url(next_page),
                                      callback =self.parse_page,
                                      meta = {'current_page': current_page,
                                              'page_num': page_num

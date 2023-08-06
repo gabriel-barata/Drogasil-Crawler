@@ -37,5 +37,10 @@
     },
     "page_patterns": {
         "results_per_page": 48
+    },
+    "proxy": {
+        "endpoint": "https://api.scrapingant.com/v2/general/",
+        "api_key": "83f2063f1011447fa85a8031c1f2d393",
+        "proxy_country": "BR"
     }
 }

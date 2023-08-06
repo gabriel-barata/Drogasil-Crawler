@@ -1,5 +1,8 @@
 from scrapy import signals
-
+from urllib.parse import urlencode
+from random import randint
+import base64
+import requests
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
 
@@ -99,10 +102,6 @@ class DrogasilDownloaderMiddleware:
 
 
 # defining a middleware to call the fake headers API and generate fake headers for our requests
-from urllib.parse import urlencode
-from random import randint
-import requests
-
 class FakeHeadersMiddleware:
 
     @classmethod

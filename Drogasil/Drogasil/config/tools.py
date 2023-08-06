@@ -39,6 +39,12 @@ _config = {
         },
     'page_patterns': {
         'results_per_page': 48
+    },
+    'proxy': {
+        'endpoint' : 'https://proxy.scrapeops.io/v1/',
+        'api_key': '8e885e75-1f82-46fe-986c-670a28e104f9',
+        'proxy_country': 'BR',
+        'residential': 'true'
     }
 }
 
