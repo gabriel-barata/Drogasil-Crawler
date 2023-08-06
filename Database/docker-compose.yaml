@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8.1.0
+    container_name: mysql-crawler
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: drogasil
+      MYSQL_USER: sb-user
+      MYSQL_PASSWORD: daniella
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./create-table.sql:/docker-entrypoint-initdb.d/create-table.sql
+      - ./grant-usage.sql:/docker-entrypoint-initdb.d/grant-usage.sql
