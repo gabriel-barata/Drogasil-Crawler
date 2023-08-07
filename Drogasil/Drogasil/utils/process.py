@@ -4,7 +4,7 @@ def try_index_strip(value):
     try:
         return value[0].strip()
 
-    except IndexError:
+    except (IndexError, TypeError):
         return value
 
     except  AttributeError:

@@ -33,7 +33,8 @@ _config = {
                 'categories': '#filter-categories ol li a::attr(href)',
                 'sub_categories': '#filter-categories ol li a::attr(href)',
                 'product_page': 'div[class*="ProductCardStyle"] > a.LinkNext::attr(href)',
-                'total_results': 'div[class*="FoundStyles"] p::text'
+                'total_results': 'div[class*="FoundStyles"] p::text',
+                'product_cards': 'div[class*="ProductCardStyle"]'
                 }
             }
         },

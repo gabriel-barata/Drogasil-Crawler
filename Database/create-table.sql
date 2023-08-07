@@ -1,18 +1,16 @@
 CREATE TABLE IF NOT EXISTS drogasil (
 
-    id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    url varchar(255),
-    sku int,
-    EAN int,
-    product varchar(255),
-    brand varchar(255),
-    quantity int,
-    weight float,
-    manufacturer varchar(255),
-    description text,
-    category varchar(255),
-    sub_category varchar(255),
-    price decimal(10, 2),
-    discount int
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    url VARCHAR(255),
+    sku INT,
+    EAN BIGINT,
+    product VARCHAR(255),
+    brand VARCHAR(255),
+    quantity VARCHAR(10),
+    weight FLOAT,
+    manufacturer VARCHAR(255),
+    description TEXT,
+    category VARCHAR(255),
+    sub_category VARCHAR(255)
 
 );

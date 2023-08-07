@@ -13,5 +13,3 @@ class DrogasilItem(scrapy.Item):
     description = scrapy.Field()
     category = scrapy.Field()
     sub_category = scrapy.Field()
-    price = scrapy.Field()
-    discount = scrapy.Field()

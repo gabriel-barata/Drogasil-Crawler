@@ -96,8 +96,7 @@ class DrogasilSpider(scrapy.Spider):
         item['weight'] = response.css(item_selectors.get('css').get('weight')).get(),
         item['manufacturer'] = response.css(item_selectors.get('css').get('manufacturer')).get(),
         item['description'] = response.css(item_selectors.get('css').get('description')).getall(),
-        item['category'] = current_page,
+        item['category'] = current_page
         item['sub_category'] = current_page
-        item['price'] = response.css(item_selectors.get('css').get('price')).getall()
 
         yield item

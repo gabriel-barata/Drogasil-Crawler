@@ -10,7 +10,7 @@ class DrogasilCleaning:
         fields = adapter.field_names()
         # values are being returnedo lists
         for field in fields:
-            if field not in ["sub_category"]:
+            if field not in ["sub_category", "category"]:
                 value = adapter.get(field)
                 adapter[field] = p.try_index_strip(value)
 
@@ -24,12 +24,12 @@ class DrogasilCleaning:
                 adapter[field] = p.try_decode_upper(value)
 
         value = adapter.get('weight')
-        adapter['weight'] = p.try_turn(value)
+        adapter['weight'] = p.try_turn_float(value)
 
         for field in fields:
             if field in ['sku', 'EAN']:
                 value = adapter.get(field)
-                adapter[field] = p.try_turn(value)
+                adapter[field] = p.try_turn_int(value)
 
         value = adapter.get('category')
         adapter['category'] = p.parse_category(value)
@@ -76,17 +76,15 @@ class SaveToMySQL:
                     manufacturer,
                     description,
                     category,
-                    sub_category,
-                    price,
-                    discount
+                    sub_category
             ) VALUES (
-                    %s,%s,%s,%s,%s,
                     %s,%s,%s,%s,
-                    %s,%s,%s,%s
+                    %s,%s,%s,%s,
+                    %s,%s,%s
             )""", (
                          item['url'], item['sku'], item['EAN'], item['product'], item['brand'],
                          item['quantity'], item['weight'], item['manufacturer'], item['description'],
-                         item['category'], item['sub_category'], item['price'], item['discount'])
+                         item['category'], item['sub_category'])
                          )
 
         self.conn.commit()

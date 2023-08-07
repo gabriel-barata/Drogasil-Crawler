@@ -13,12 +13,10 @@ NEWSPIDER_MODULE = "Drogasil.spiders"
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 8
 
-# Configure a delay for requests for the same website (default: 0)
-# See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 2
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -28,12 +26,6 @@ ROBOTSTXT_OBEY = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
-
-# Override the default request headers:
-#DEFAULT_REQUEST_HEADERS = {
-#    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-#    "Accept-Language": "en",
-#}
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
@@ -57,10 +49,11 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 ITEM_PIPELINES = {
     "Drogasil.pipelines.DrogasilCleaning": 300,
+    "Drogasil.pipelines.SaveToMySQL": 400,
 }
 
-# Enable andconfigure the AutoThrottle extension (disabled by default)
-#AUTOTHROTTLE_ENABLED = True
+# Enable and configure the AutoThrottle extension (disabled by default)
+AUTOTHROTTLE_ENABLED = True
 # The initial download delay
 #AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
@@ -79,11 +72,11 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
 
+TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+
 # Set settings whose default value is deprecated to a future-proof value
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 FEED_EXPORT_ENCODING = "utf-8"
-
-TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 
 # Fake Header generator settings
 HEADER_GEN_API_KEY = '8e885e75-1f82-46fe-986c-670a28e104f9'
@@ -95,5 +88,5 @@ HEADER_GEN_NUM_RESULTS = 10
 MYSQL_HOST = 'localhost'
 MYSQL_USER = 'crawler_user'
 MYSQL_PASSWORD = 'daniella'
-MYSQL_PORT = '3306'
+MYSQL_PORT = '3301'
 MYSQL_DATABASE = 'drogasil'
